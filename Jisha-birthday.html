@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Jisha 🎉</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle at top,#ff9ecf,#ff4da6,#8e2de2);
+    overflow:hidden;
+    text-align:center;
+    color:white;
+}
+
+.container{
+    position:relative;
+    z-index:2;
+    padding:25px;
+    max-width:450px;
+    width:100%;
+}
+
+h1{
+    font-size:40px;
+    font-weight:800;
+    animation: glow 2s infinite alternate;
+}
+
+h2{
+    font-size:26px;
+    margin-bottom:15px;
+}
+
+p{
+    font-size:16px;
+    opacity:0.9;
+    margin-bottom:25px;
+}
+
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
+    background:white;
+    color:#ff4da6;
+    font-weight:600;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 10px white,0 0 20px #ff4da6;}
+    to{ text-shadow:0 0 20px white,0 0 40px #ff4da6;}
+}
+
+/* Floating balloons */
+.balloon{
+    position:absolute;
+    bottom:-150px;
+    width:50px;
+    height:70px;
+    border-radius:50%;
+    animation:float 10s infinite;
+}
+
+@keyframes float{
+    0%{ transform:translateY(0);}
+    100%{ transform:translateY(-120vh);}
+}
+
+/* Confetti Canvas */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+@media(max-width:480px){
+    h1{font-size:30px;}
+    h2{font-size:20px;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="container">
+    <h2>🎂 Happy Birthday</h2>
+    <h1>Jisha 💖</h1>
+    <p>May your day be filled with endless happiness, love, laughter and beautiful surprises! 🌸✨</p>
+    <button onclick="blast()">Celebrate 🎊</button>
+</div>
+
+<!-- Balloons -->
+<div class="balloon" style="left:10%; background:#ff4da6; animation-duration:12s;"></div>
+<div class="balloon" style="left:30%; background:#ffd54f; animation-duration:15s;"></div>
+<div class="balloon" style="left:60%; background:#69f0ae; animation-duration:18s;"></div>
+<div class="balloon" style="left:80%; background:#40c4ff; animation-duration:14s;"></div>
+
+<script>
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let pieces = [];
+
+function randomColor(){
+    const colors=["#ff4da6","#ffd54f","#69f0ae","#40c4ff","#ffffff"];
+    return colors[Math.floor(Math.random()*colors.length)];
+}
+
+function createPieces(){
+    for(let i=0;i<200;i++){
+        pieces.push({
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height-canvas.height,
+            size:Math.random()*8+4,
+            speed:Math.random()*3+2,
+            color:randomColor()
+        });
+    }
+}
+
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+        ctx.fillStyle=p.color;
+        ctx.fillRect(p.x,p.y,p.size,p.size);
+        p.y+=p.speed;
+        if(p.y>canvas.height){
+            p.y=-10;
+            p.x=Math.random()*canvas.width;
+        }
+    });
+    requestAnimationFrame(draw);
+}
+
+function blast(){
+    pieces=[];
+    createPieces();
+    draw();
+}
+
+window.addEventListener("resize",()=>{
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+});
+</script>
+
+</body>
+</html>
